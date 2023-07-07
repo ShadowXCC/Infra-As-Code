@@ -15,26 +15,43 @@
     ansible.windows.win_package:
       path: https://cdn.cloudflare.steamstatic.com/client/installer/SteamSetup.exe
 
-  - name: Install 
+  - name: Install Chrome
     ansible.windows.win_package:
-      path: 
+      path: https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B5D7D9A33-1224-7652-CAA8-2E2C2E2ED78E%7D%26lang%3Den%26browser%3D4%26usagestats%3D1%26appname%3DGoogle%2520Chrome%26needsadmin%3Dprefers%26ap%3Dx64-stable-statsdef_1%26installdataindex%3Dempty/update2/installers/ChromeSetup.exe
 
-  - name: Install 
+  - name: Install Firefox
     ansible.windows.win_package:
-      path: 
+      path: https://www.mozilla.org/en-US/firefox/download/thanks/
 
-  - name: Install 
+  - name: Install VS Code
     ansible.windows.win_package:
-      path: 
+      path: https://az764295.vo.msecnd.net/stable/660393deaaa6d1996740ff4880f1bad43768c814/VSCodeUserSetup-x64-1.80.0.exe
 
-  - name: Install 
-    ansible.windows.win_package:
-      path: 
+  # - name: Install 
+  #   ansible.windows.win_package:
+  #     path: 
 
-  - name: Install 
-    ansible.windows.win_package:
-      path: 
+  # - name: Install 
+  #   ansible.windows.win_package:
+  #     path: 
 
-  - name: Install 
-    ansible.windows.win_package:
-      path: 
+  # - name: Install 
+  #   ansible.windows.win_package:
+  #     path: 
+
+  - name: Download SolarPuTTY to temp folder
+    ansible.windows.win_get_url:
+      url: https://sw1.solarwinds.com/NTY0LVZGUi0wMDgAAAF_6EiMemu6ivn5JELdnFW0eIPrHFGiqkG4KfshJUIYAYubNWbHqRtJLS4baY-cT5HjgrFlmYU=
+      dest: C:\Users\%USERNAME%\AppData\Local\Temp\
+  
+  - name: Extract Solar PuTTY zip file
+    community.windows.win_unzip:
+      src: C:\Users\%USERNAME%\AppData\Local\Temp\*PuTTY*.zip
+      dest: C:\Program Files\
+      creates: C:\Program Files\*Solar-PuTTY*.zip
+
+- name: Create an application shortcut for SolarPuTTY on the task bar
+  community.windows.win_shortcut:
+    src: C:\Program Files\*Solar-PuTTY*.zip
+    dest: C:\Users\%USERNAME%\AppData\Roaming\Microsoft\Internet Explorer\Quick Launch\User Pinned\TaskBar
+    icon: C:\Program Files\*Solar-PuTTY*.zip,0
