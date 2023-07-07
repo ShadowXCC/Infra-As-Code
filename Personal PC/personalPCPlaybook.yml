@@ -1,0 +1,40 @@
+# To install:
+# Steam
+
+- name: Network Getting Started First Playbook
+  connection: ansible.netcommon.network_cli
+  gather_facts: false
+  hosts: all
+  tasks:
+  
+  - name: Install Discord
+    ansible.windows.win_package:
+      path: https://discord.com/api/downloads/distributions/app/installers/latest?channel=stable&platform=win&arch=x86
+  
+  - name: Install Steam
+    ansible.windows.win_package:
+      path: https://cdn.cloudflare.steamstatic.com/client/installer/SteamSetup.exe
+
+  - name: Install 
+    ansible.windows.win_package:
+      path: 
+
+  - name: Install 
+    ansible.windows.win_package:
+      path: 
+
+  - name: Install 
+    ansible.windows.win_package:
+      path: 
+
+  - name: Install 
+    ansible.windows.win_package:
+      path: 
+
+  - name: Install 
+    ansible.windows.win_package:
+      path: 
+
+  - name: Install 
+    ansible.windows.win_package:
+      path: 
