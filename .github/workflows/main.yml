@@ -8,4 +8,5 @@ jobs:
         uses: actions/checkout@v3
       - run: ansible --version
       - run: ansible-playbook "CI-CD Learning/playbook.yml"
-      - run: cat ./createdFile
+      - run: ls
+      - run: cat createdFile
