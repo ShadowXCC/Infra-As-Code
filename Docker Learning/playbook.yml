@@ -1,0 +1,39 @@
+- name: Docker Learning
+  gather_facts: true
+  hosts: test
+  tasks:
+    - name: Install Docker's Dependencies
+      ansible.builtin.apt:
+        update_cache: true
+        name:
+          - ca-certificates
+          - curl
+          - gnupg
+
+    - name: IDK what this does, but its needed for Docker to install
+      ansible.builtin.command: "sudo install -m 0755 -d /etc/apt/keyrings"
+
+    - name: Import the gpg key for Docker's repository
+      ansible.builtin.rpm_key:
+        state: present
+        key: https://download.docker.com/linux/ubuntu/gpg
+
+    - name: Change file permissions of the gpg key
+      ansible.builtin.file: 
+        path: /etc/apt/keyrings/docker.gpg
+        mode: "a+r"
+
+    - name: Edit repository files to enable Docker's repository
+      ansible.builtin.command: echo "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null"
+
+    - name: Install Docker
+      ansible.builtin.apt:
+        update_cache: true
+        name:
+          - docker-ce-cli
+          - containerd.io
+          - docker-buildx-plugin 
+          - docker-compose-plugin
+
+    - name: IDK what this does, but its needed for Docker to install
+      ansible.builtin.command: "sudo docker run hello-world"
