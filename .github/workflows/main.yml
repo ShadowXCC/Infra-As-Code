@@ -1,4 +1,4 @@
-name: CI/CD First Try
+name: Learn CI/CD
 on: [push]
 jobs:
   Explore-GitHub-Actions:
@@ -13,3 +13,4 @@ jobs:
       - run: echo "🖥️ The workflow is now ready to test your code on the runner."
       - run: echo "This job's status is ${{ job.status }}."
       - run: ansible --version
+      - run: ansible-playbook -i ../local-inv "CI-CD Learning/playbook.yml"
