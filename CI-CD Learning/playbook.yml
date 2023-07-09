@@ -5,11 +5,11 @@
   tasks:
     - name: Create a file
       ansible.builtin.file:
-        path: ./createdFile
+        path: ../createdFile
         state: touch
     
     - name: Add a line
       ansible.builtin.lineinfile:
-        path: ./createdFile
+        path: ../createdFile
         line: "It worked"
         insertafter: EOF
