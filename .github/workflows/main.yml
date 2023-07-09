@@ -1,5 +1,7 @@
 name: Learn CI/CD
-on: [push]
+on: 
+  push:
+    paths: ['CI-CD Learning/**']
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
