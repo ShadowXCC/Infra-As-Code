@@ -1,0 +1,5 @@
+ansible_shell_type=powershell
+shell_type=powershell
+
+[vm-test]
+192.168.1.158

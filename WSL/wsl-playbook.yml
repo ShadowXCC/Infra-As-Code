@@ -1,0 +1,46 @@
+# To install:
+# Vagrant, Ansible, Python
+
+# Also to install:
+# - https://github.com/josenk/vagrant-vmware-esxi
+
+- name: Network Getting Started First Playbook
+  gather_facts: true
+  hosts: localhost
+  connection: local
+  tasks:
+
+    #wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+    - name: Import the gpg key
+      ansible.builtin.rpm_key:
+        state: present
+        key: https://apt.releases.hashicorp.com/gpg
+    
+    #  echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+    - name: Run command
+      ansible.builtin.command: echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+
+    #  sudo apt update && sudo apt install vagrant
+    - name: Apt Update/Upgrade/Install Vagrant
+      ansible.builtin.apt:
+        update_cache: true
+        upgrade: "yes"
+        name: vagrant
+    
+    - name: Install ESXi Vagrant plugin
+      ansible.builtin.command: vagrant plugin install vagrant-vmware-esxi
+
+    - name: Install Ansible
+      ansible.builtin.command: python3 -m pip install --user ansible
+
+    - name: Enable Vagrant's access to the Windows host using the environment variable
+      ansible.builtin.lineinfile:
+        path: ~/.profile
+        insertafter: EOF
+        line: export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS="1"
+
+    - name: Change the default text editor from "nano" to "vim"
+      ansible.builtin.lineinfile:
+        path: ~/.profile
+        insertafter: EOF
+        line: export EDITOR=nano

@@ -1,0 +1,10 @@
+[ubuntu]
+192.168.1.213
+192.168.1.204
+
+[ubuntu:vars]
+ansible_user='{{ ssh_username }}'  # ssh login user
+ansible_password='{{ ssh_password }}'
+ansible_become=yes
+ansible_become_method=sudo 
+ansible_become_pass='{{ su_password }}'

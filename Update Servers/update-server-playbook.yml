@@ -1,0 +1,23 @@
+# To install:
+# Vagrant, Ansible, Python
+
+# Also to install:
+# - https://github.com/josenk/vagrant-vmware-esxi
+
+- name: Manage existing servers
+  gather_facts: true
+  hosts: ubuntu
+  become: true  
+
+  vars_files:
+    - ../shhh.yml
+
+  tasks:
+
+    - name: Update and Upgrade
+      ansible.builtin.apt:
+        update_cache: true
+        upgrade: "yes"
+    
+    - name: Reboot the machine, now
+      ansible.builtin.reboot:

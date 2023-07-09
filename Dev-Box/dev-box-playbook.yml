@@ -5,7 +5,6 @@
 # - https://github.com/josenk/vagrant-vmware-esxi
 
 - name: Network Getting Started First Playbook
-  connection: ansible.netcommon.network_cli
   gather_facts: false
   hosts: all
   tasks:
