@@ -1,6 +1,7 @@
 - name: CI CD Learning
   gather_facts: true
-  hosts: all
+  hosts: localhost
+  connection: local
   tasks:
     - name: Install Docker's Dependencies
       ansible.builtin.ping:
