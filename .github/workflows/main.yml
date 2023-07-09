@@ -7,5 +7,5 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v3
       - run: ansible --version
-      - run: ansible-playbook -i ../local-inv "CI-CD Learning/playbook.yml"
+      - run: ansible-playbook "CI-CD Learning/playbook.yml"
       - run: cat ./createdFile

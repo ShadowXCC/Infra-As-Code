@@ -6,7 +6,7 @@
     - name: Create a file
       ansible.builtin.file:
         path: ./createdFile
-        state: present
+        state: touch
     
     - name: Add a line
       ansible.builtin.lineinfile:
