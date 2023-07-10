@@ -3,7 +3,7 @@ on:
   push:
     paths: ['CI-CD Learning/**']
 jobs:
-  Explore-GitHub-Actions:
+  Main:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
