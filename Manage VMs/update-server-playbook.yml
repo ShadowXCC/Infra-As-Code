@@ -4,20 +4,21 @@
 # Also to install:
 # - https://github.com/josenk/vagrant-vmware-esxi
 
-- name: Manage existing servers
-  gather_facts: true
+- name: Update and Upgrade Ubuntu Servers
+  gather_facts: false
   hosts: ubuntu
-  become: true  
+  become: true
+  # roles:
+  #   - updateandupgrade
 
   vars_files:
     - ../shhh.yml
 
   tasks:
-
     - name: Update and Upgrade
-      ansible.builtin.apt:
+      apt:
         update_cache: true
         upgrade: "yes"
-    
+
     - name: Reboot the machine, now
-      ansible.builtin.reboot:
+      reboot:

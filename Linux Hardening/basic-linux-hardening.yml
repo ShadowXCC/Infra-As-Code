@@ -1,0 +1,6 @@
+- name: Basic Linux Hardening
+  gather_facts: true
+  hosts: test
+  tasks:
+    - name: ???
+      

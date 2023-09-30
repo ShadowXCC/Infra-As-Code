@@ -1,0 +1,1 @@
+7/8/23 ansible-playbook -i inventory update-server-playbook.yml --vault-password-file ~/.ansible/vaultPassword.txt --extra-vars '@../shhh.yml'

@@ -1,0 +1,20 @@
+- name: Security Polling
+  gather_facts: true
+  hosts: test
+  tasks:
+    - name: ???
+      
+# tags: poll
+# All open ports, if possible list what services are on each port, all software
+
+# list all open ports - https://www.cyberciti.biz/faq/how-to-check-open-ports-in-linux-using-the-cli/
+# list serivces on ports
+
+# list all installed software
+# maybe do some process (python likely) to sort them into suggested categories (system, security, ..., unknown)
+
+
+
+# tags: apply
+# Remove all unneeded software, apt autoremove, close all unneeded ports
+# after applying delete file, and rerun the "poll" tags and inform user if their are still ports and update the installed software list

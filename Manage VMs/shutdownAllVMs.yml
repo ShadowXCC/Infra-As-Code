@@ -1,0 +1,11 @@
+- name: Shutdown all VMs
+  gather_facts: false
+  hosts: ubuntu
+  become: true
+
+  vars_files:
+    - ../shhh.yml
+
+  tasks:
+    - name: Shutdown the machine, now
+      shutdown:

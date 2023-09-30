@@ -1,0 +1,7 @@
+- name: Update and Upgrade
+  ansible.builtin.apt:
+    update_cache: true
+    upgrade: "yes"
+
+- name: Reboot the machine, now
+  ansible.builtin.reboot:
