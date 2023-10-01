@@ -1,2 +1,5 @@
-[vm-test]
+[local]
 localhost
+
+[local:vars]
+ansible_become_pass='{{ su_password }}'
