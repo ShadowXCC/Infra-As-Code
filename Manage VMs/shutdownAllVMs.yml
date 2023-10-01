@@ -3,8 +3,8 @@
   hosts: ubuntu
   become: true
 
-  vars_files:
-    - ../shhh.yml
+  # vars_files:
+  #   - ../shhh.yml
 
   tasks:
     - name: Shutdown the machine, now

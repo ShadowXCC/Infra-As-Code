@@ -1,0 +1,45 @@
+- name: 
+  gather_facts: true
+  hosts: localhost
+  connection: local
+  become: yes
+  vars_files:
+    - ../../shhh.yml
+
+  vars:
+    path: "/mnt/c/Users/shado/"
+    to_rsync:
+      - AppData
+      - Desktop
+      - Documents
+      - Pictures
+      - Saved Games
+      - Videos
+  
+  tasks:
+    - name: Mount network share
+      ansible.posix.mount:
+        src: //192.168.1.220/Chris
+        path: /mnt/Chris
+        opts: "username={{ smb_share_username }},password={{ smb_share_password }}"
+        state: ephemeral
+        fstype: cifs
+
+    - name: Create folder to drop backups into
+      file:
+        path: "/mnt/Chris/Backups/Ansibilized Backups/{{ ansible_date_time.date }}"
+        state: directory
+
+    # # Tar up the relevant folders
+    # - name: Compress Relevant Folders
+    #   command: "tar -czf {{ ansible_date_time.date }}.tar {{ path }}AppData {{ path }}Desktop {{ path }}Documents {{ path }}Pictures {{ path }}Saved {{ path }}Games {{ path }}Videos"
+
+    - name: Copy files to NAS
+      # command: "rsync -av /mnt/c/Users/shado/{{ ansible_date_time.date }}.tar '/mnt/Chris/Backups/Ansibilized Backups/{{ ansible_date_time.date }}.tar'"
+      command: "rsync -av /mnt/c/Users/shado/{{ item }} '/mnt/Chris/Backups/Ansibilized Backups/{{ ansible_date_time.date }}'"
+      loop: "{{ to_rsync }}"
+      # synchronize:
+      #   src: /mnt/c/Users/shado
+      #   dest: "/mnt/Chris/Backups/Ansibilized Backups/{{ ansible_date_time.date }}"
+      #   rsync_opts:
+      #     - "--exclude=.vagrant.d"
