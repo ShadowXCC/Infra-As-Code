@@ -1,0 +1,14 @@
+- name: 
+  gather_facts: true
+  hosts: stream
+  # become: yes
+  # vars_files:
+  #   - ../../shhh.yml
+
+  tasks:
+    # Apt update and upgrade
+    # Install VPN
+    # Install firefox
+    # Install transmission
+    # drop text file with VPN login, homepage URL onto target
+    # 

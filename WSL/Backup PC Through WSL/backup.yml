@@ -1,6 +1,6 @@
 - name: 
   gather_facts: true
-  hosts: localhost
+  hosts: local
   connection: local
   become: yes
   vars_files:
@@ -8,14 +8,16 @@
 
   vars:
     path: "/mnt/c/Users/shado/"
-    to_rsync:
+    to_rsync_users:
       - AppData
       - Desktop
       - Documents
       - Pictures
-      - Saved Games
+      - "Saved Games"
       - Videos
-  
+
+    to_rsync_d: Projects
+
   tasks:
     - name: Mount network share
       ansible.posix.mount:
@@ -34,12 +36,16 @@
     # - name: Compress Relevant Folders
     #   command: "tar -czf {{ ansible_date_time.date }}.tar {{ path }}AppData {{ path }}Desktop {{ path }}Documents {{ path }}Pictures {{ path }}Saved {{ path }}Games {{ path }}Videos"
 
-    - name: Copy files to NAS
+    - name: Backup User Specific files to NAS
+      command: "rsync -av '/mnt/c/Users/shado/{{ item }}' '/mnt/Chris/Backups/Ansibilized Backups/{{ ansible_date_time.date }}'"
+      loop: "{{ to_rsync_users }}"
+      ignore_errors: true
       # command: "rsync -av /mnt/c/Users/shado/{{ ansible_date_time.date }}.tar '/mnt/Chris/Backups/Ansibilized Backups/{{ ansible_date_time.date }}.tar'"
-      command: "rsync -av /mnt/c/Users/shado/{{ item }} '/mnt/Chris/Backups/Ansibilized Backups/{{ ansible_date_time.date }}'"
-      loop: "{{ to_rsync }}"
       # synchronize:
       #   src: /mnt/c/Users/shado
       #   dest: "/mnt/Chris/Backups/Ansibilized Backups/{{ ansible_date_time.date }}"
       #   rsync_opts:
       #     - "--exclude=.vagrant.d"
+
+    - name: Backup Folders on "D:" to NAS
+      command: "rsync -av '/mnt/d/{{ to_rsync_d }}' '/mnt/Chris/Backups/Ansibilized Backups/{{ ansible_date_time.date }}'"

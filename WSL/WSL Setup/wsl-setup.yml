@@ -44,3 +44,9 @@
         path: ~/.profile
         insertafter: EOF
         line: export EDITOR=nano
+
+    - name: Install Packer
+      script: packerInstall.sh
+
+    - name: Install Terraform
+      script: terraformInstall.sh
