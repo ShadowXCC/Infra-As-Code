@@ -20,7 +20,7 @@ Vagrant.configure("2") do |config|
     #    3) 'env:'  or 'env:my_secret_env_var'
     #    4) 'key:'  or  key:~/.ssh/some_ssh_private_key'
     #    5) or esxi.esxi_password = 'my_esxi_password'
-    esxi.esxi_password = 'prompt:'
+    esxi.esxi_password = ''
 
     #  SSH port.
     esxi.esxi_hostport = 22
