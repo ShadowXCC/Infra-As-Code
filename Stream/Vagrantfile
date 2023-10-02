@@ -1,7 +1,6 @@
 Vagrant.configure("2") do |config|
 
-  config.vm.box = "bento/ubuntu-22.04"
-  config.vm.box_version = "202303.13.0"
+  config.vm.box = "gusztavvargadr/ubuntu-desktop"
 
   #
   #  Provider (esxi) settings
@@ -30,7 +29,7 @@ Vagrant.configure("2") do |config|
     esxi.esxi_virtual_network = ['VM Network']#,'VM Network2','VM Network3','VM Network4']
 
     #  OPTIONAL.  Specify a Disk Store
-    esxi.esxi_disk_store = 'VMs'
+    esxi.esxi_disk_store = 'BIG SSD'
 
     #  OPTIONAL.  Resource Pool Vagrant will NOT create a Resource pool it for you.
     #esxi.esxi_resource_pool = '/Vagrant'
@@ -41,7 +40,7 @@ Vagrant.configure("2") do |config|
     #esxi.clone_from_vm = 'resource_pool/source_vm'
 
     #  OPTIONAL.  Guest VM name to use. - The Default will be automatically generated.
-    esxi.guest_name = 'Vagrant-Test'
+    esxi.guest_name = ''
 
     #  OPTIONAL.  When automatically naming VMs, use this prefix.
     #esxi.guest_name_prefix = 'V-'
@@ -82,7 +81,7 @@ Vagrant.configure("2") do |config|
     #esxi.guest_guestos = 'centos-64'
 
     #  OPTIONAL. guest_virtualhw_version - ESXi 6.7 supports these versions. 4,7,8,9,10,11,12,13 & 14.
-    #esxi.guest_virtualhw_version = '9'
+    esxi.guest_virtualhw_version = '14'
 
     #  OPTIONAL. Guest Autostart - Guest VM will autostart when esxi host is booted. 'true' or 'false'(default)
     #esxi.guest_autostart = 'false'
