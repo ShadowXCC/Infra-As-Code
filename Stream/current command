@@ -1,1 +1,1 @@
-9/30/23 ansible-playbook -i inventory backup.yml --vault-password-file ~/.ansible/vaultPassword.txt --extra-vars '@../../shhh.yml'
+10/7/23 ansible-playbook -i inventory stream.yml --vault-password-file ~/.ansible/vaultPassword.txt --extra-vars '@../shhh.yml'

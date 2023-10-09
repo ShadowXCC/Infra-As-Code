@@ -1,0 +1,9 @@
+- name: 
+  gather_facts: true
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Return IP Address
+      debug: 
+        var: "ansible_facts['ohai_network']['interfaces']['eth0']['addresses']"

@@ -1,14 +1,94 @@
 - name: 
-  gather_facts: true
-  hosts: stream
-  # become: yes
-  # vars_files:
-  #   - ../../shhh.yml
+  gather_facts: false
+  hosts: all
+  become: yes
+  vars_files:
+    - ../vagrant_shhh.yml
 
   tasks:
-    # Apt update and upgrade
-    # Install VPN
-    # Install firefox
-    # Install transmission
-    # drop text file with VPN login, homepage URL onto target
-    # 
+    # Unneeded as Transmission exists in the Ubuntu default repos
+    # - name: Add apt-repository
+    #   apt_repository:
+    #     repo: 'ppa:transmissionbt/ppa'
+    #     codename: transmission
+
+    # - name: Delete Vagrant User
+    #   user:
+    #     name: vagrant
+    #     state: absent
+    #     remove: true
+
+    # - name: Expire Vagrant Account
+    #   command: "usermod --expiredate 1 vagrant"
+
+    # - name: /#2. Lock Vagrant Account's Password
+    #   command: "passwd -l vagrant"
+        
+    - name: Create "shadowxcc" user
+      user:
+        name: "shadowxcc"
+        password: "{{ hashed_password }}"
+        groups: sudo
+    
+    # - name: Disable password for sudo on remote (bad idea, but oh well)
+    #   copy:
+    #     dest: /etc/sudoers.d/80-shadowxcc-sudo-user
+    #     content: "shadowxcc ALL=(ALL) NOPASSWD:ALL"
+    #     mode: 0440
+
+    - name: Update and Upgrade
+      apt:
+        update_cache: true
+        upgrade: "yes"
+
+    - name: Install Desktop Environment
+      apt:
+        pkg:
+        - vanilla-gnome-desktop 
+        - vanilla-gnome-default-settings
+
+    - name: Install transmission(s)
+      apt:
+        pkg:
+        - transmission-gtk
+        - transmission-cli
+        - transmission-common
+
+    - name: Download Private Internet Access Install Script
+      ansible.builtin.get_url:
+        url: https://installers.privateinternetaccess.com/download/pia-linux-3.5-07703.run
+        dest: /home/shadowxcc/pia.run
+        mode: 'u=rwx'
+    
+    # The script provided by PIA does not appear to be easily ran through automation due to how it is written, for now do this manually
+    # - name: Run Private Internet Access Install Script
+    #   command: "sh /home/shadowxcc/pia.run"
+
+    # - name: Install VNC Server
+    - name: Install VNC Server
+      apt:
+        pkg: tigervnc-standalone-server
+
+    # https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-vnc-on-ubuntu-20-04
+    # Eventually script in "Connecting to the VNC Desktop Securely"
+    # "ssh -L 59000:localhost:5901 -C -N -l sammy your_server_ip"
+
+    # Copy settings file
+    - name: Copy settings file
+      copy:
+        src: /mnt/d/Projects/Infra-As-Code/Stream/settings.txt
+        dest: /home/shadowxcc/settings.txt
+
+    - name: Change Hostname of VM
+      command: "hostnamectl hostname Stream"
+
+    - name: Register IP Address of Vagrant Created VM
+      command: "ip address show eth0"
+      register: ipAddress
+
+    - name: Print out IP Address for User to Finish Setup
+      debug:
+        var: ipAddress.stdout_lines
+
+    - name: Restart the VM
+      reboot:
