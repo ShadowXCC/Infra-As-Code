@@ -1,0 +1,48 @@
+- name: 
+  gather_facts: false
+  hosts: all
+  become: yes
+  vars_files:
+    - ../vagrant_shhh.yml
+
+  tasks:
+    - name: Create "shadowxcc" user
+      user:
+        name: "shadowxcc"
+        password: "{{ hashed_password }}"
+        groups: sudo
+
+    - name: Update and Upgrade
+      apt:
+        update_cache: true
+        upgrade: "yes"
+
+    - name: Setup to install PostgreSQL
+      shell: |
+        "sudo sh -c 'echo "deb https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+        wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+        sudo apt update"
+
+    - name: Install PostgreSQL
+      apt:
+        pkg:
+        - PostgreSQL
+
+    - name: Copy settings file
+      copy:
+        src: /mnt/d/Projects/Infra-As-Code/Stream/settings.txt
+        dest: /home/shadowxcc/settings.txt
+
+    - name: Change Hostname of VM
+      command: "hostnamectl hostname database"
+
+    - name: Register IP Address of Vagrant Created VM
+      command: "ip address show eth0"
+      register: ipAddress
+
+    - name: Print out IP Address for User to Finish Setup
+      debug:
+        var: ipAddress.stdout_lines
+
+    - name: Restart the VM
+      reboot:

@@ -31,7 +31,7 @@
         groups: sudo
     
     # - name: Disable password for sudo on remote (bad idea, but oh well)
-    #   copy:
+    #   copy:?
     #     dest: /etc/sudoers.d/80-shadowxcc-sudo-user
     #     content: "shadowxcc ALL=(ALL) NOPASSWD:ALL"
     #     mode: 0440

@@ -1,0 +1,7 @@
+[database]
+192.168.1.237
+
+[database:vars]
+ansible_user='{{ ssh_username }}'  # ssh login user
+ansible_password='{{ ssh_password }}'
+ansible_become_pass='{{ su_password }}'
